@@ -1,0 +1,107 @@
+\<!-- frontend/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Collab Sphere</title>
+  <link rel="stylesheet" href="assets/css/auth.css">
+  <style>
+    .dashboard {
+      padding: 20px;
+    }
+    
+    .welcome-message {
+      margin-bottom: 20px;
+    }
+    
+    .btn-logout {
+      background-color: #F02849;
+      color: white;
+      margin-top: 20px;
+    }
+    
+    .btn-logout:hover {
+      background-color: #D9234C;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" style="max-width: 600px">
+    <div class="app-logo">
+      <h1>Collab Sphere</h1>
+    </div>
+    
+    <div class="dashboard">
+      <h2>Dashboard</h2>
+      
+      <div id="welcomeMessage" class="welcome-message">
+        Loading...
+      </div>
+      
+      <p>Welcome to Collab Sphere! Your authentication system is working properly.</p>
+      
+      <button id="logoutBtn" class="btn btn-logout">Log Out</button>
+    </div>
+  </div>
+
+  <script>
+    // API URL - Update this with your backend URL
+    const API_URL = 'http://localhost:5000/api';
+    
+    // DOM Elements
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    const logoutBtn = document.getElementById('logoutBtn');
+    
+    // Check if user is logged in
+    async function checkAuth() {
+      try {
+        const response = await fetch(`${API_URL}/auth/me`, {
+          method: 'GET',
+          credentials: 'include'
+        });
+        
+        if (!response.ok) {
+          // If not logged in, redirect to login page
+          window.location.href = 'pages/login.html';
+          return;
+        }
+        
+        const data = await response.json();
+        
+        // Show welcome message with user's name
+        welcomeMessage.textContent = `Hello, ${data.user.name}!`;
+        
+      } catch (error) {
+        console.error('Auth check error:', error);
+        window.location.href = 'pages/login.html';
+      }
+    }
+    
+    // Handle logout
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        const response = await fetch(`${API_URL}/auth/logout`, {
+          method: 'GET',
+          credentials: 'include'
+        });
+        
+        if (response.ok) {
+          // Clear local storage
+          localStorage.removeItem('user');
+          
+          // Redirect to login page
+          window.location.href = 'pages/login.html';
+        } else {
+          console.error('Logout failed');
+        }
+      } catch (error) {
+        console.error('Logout error:', error);
+      }
+    });
+    
+    // Check auth when page loads
+    document.addEventListener('DOMContentLoaded', checkAuth);
+  </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!-- frontend/pages/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Collab Sphere</title>
+  <link rel="stylesheet" href="../assets/css/auth.css">
+</head>
+<body>
+  <div class="container">
+    <div class="app-logo">
+      <h1>Collab Sphere</h1>
+    </div>
+    
+    <h2 class="form-title">Login to Your Account</h2>
+    
+    <div id="errorMessage" class="error-message"></div>
+    <div id="successMessage" class="success-message"></div>
+    
+    <form id="loginForm" class="auth-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email">
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required placeholder="Enter your password">
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Log In</button>
+    </form>
+    
+    <div class="divider">
+      <span>OR</span>
+    </div>
+    
+    <div class="switch-form">
+      <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+    </div>
+  </div>
+
+  <script src="../assets/js/auth.js"></script>
+</body>
+</html>

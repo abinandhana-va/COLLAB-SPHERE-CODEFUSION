@@ -1,0 +1,58 @@
+<!-- frontend/pages/signup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Collab Sphere</title>
+  <link rel="stylesheet" href="../assets/css/auth.css">
+</head>
+<body>
+  <div class="container">
+    <div class="app-logo">
+      <h1>Collab Sphere</h1>
+    </div>
+    
+    <h2 class="form-title">Create New Account</h2>
+    
+    <div id="errorMessage" class="error-message"></div>
+    <div id="successMessage" class="success-message"></div>
+    
+    <form id="signupForm" class="auth-form">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email">
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required placeholder="Create a password" 
+               minlength="6">
+      </div>
+      
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required 
+               placeholder="Confirm your password" minlength="6">
+      </div>
+      
+      <button type="submit" class="btn btn-success">Sign Up</button>
+    </form>
+    
+    <div class="divider">
+      <span>OR</span>
+    </div>
+    
+    <div class="switch-form">
+      <p>Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+  </div>
+
+  <script src="../assets/js/auth.js"></script>
+</body>
+</html>
