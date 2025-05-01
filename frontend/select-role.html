@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Your Role | CollabSphere</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .role-container {
+            max-width: 900px;
+            margin: 80px auto;
+        }
+        .role-card {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            cursor: pointer;
+        }
+        .role-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        .card-body {
+            padding: 30px;
+        }
+        .role-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #0d6efd;
+        }
+        .role-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .page-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">CollabSphere</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container role-container">
+        <h1 class="page-title">Select Your Role on CollabSphere</h1>
+        <p class="text-center mb-5">Choose the role that best describes how you want to use CollabSphere</p>
+        
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="role-card p-4" id="creator-role">
+                    <div class="card-body text-center">
+                        <div class="role-icon">👨‍💼</div>
+                        <h3 class="role-title">Creator</h3>
+                        <p class="mb-4">I have projects and need talented people to collaborate with me.</p>
+                        <ul class="text-start">
+                            <li>Post projects and opportunities</li>
+                            <li>Find skilled contributors</li>
+                            <li>Manage collaboration teams</li>
+                            <li>Track project progress</li>
+                        </ul>
+                        <button class="btn btn-outline-primary mt-3 w-100">Select Creator Role</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="role-card p-4" id="contributor-role">
+                    <div class="card-body text-center">
+                        <div class="role-icon">👩‍💻</div>
+                        <h3 class="role-title">Contributor</h3>
+                        <p class="mb-4">I have skills and want to find projects to contribute to.</p>
+                        <ul class="text-start">
+                            <li>Browse collaboration opportunities</li>
+                            <li>Showcase your skills and portfolio</li>
+                            <li>Apply to interesting projects</li>
+                            <li>Build your network and experience</li>
+                        </ul>
+                        <button class="btn btn-outline-primary mt-3 w-100">Select Contributor Role</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Check if user is already logged in
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+            window.location.href = '/login.html';
+        }
+        
+        // Handle role selection
+        document.getElementById('creator-role').addEventListener('click', function() {
+            // Save role to localStorage 
+            localStorage.setItem('userRole', 'creator');
+            
+            // Update user role in backend
+            updateUserRole('creator');
+        });
+        
+        document.getElementById('contributor-role').addEventListener('click', function() {
+            // Save role to localStorage
+            localStorage.setItem('userRole', 'contributor');
+            
+            // Update user role in backend
+            updateUserRole('contributor');
+        });
+        
+        async function updateUserRole(role) {
+            try {
+                const response = await fetch('http://localhost:5000/api/users/role', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: userId,
+                        role: role
+                    })
+                });
+                
+                if (response.ok) {
+                    // Redirect to appropriate profile form
+                    if (role === 'creator') {
+                        window.location.href = '/creator-profile.html';
+                    } else {
+                        window.location.href = '/contributor-profile.html';
+                    }
+                } else {
+                    alert('Error updating role. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error updating role:', error);
+                alert('Error updating role. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>

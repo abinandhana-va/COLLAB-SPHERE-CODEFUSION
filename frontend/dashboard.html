@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | CollabSphere</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --dark-purple: #2D1B4B;
+            --medium-purple: #6A3CBF;
+            --light-purple: #9D71EA;
+            --accent-purple: #B288F8;
+            --very-light-purple: #EDE4FF;
+            --black: #121212;
+            --dark-gray: #1E1E1E;
+            --medium-gray: #2A2A2A;
+            --light-gray: #333333;
+        }
+        
+        body {
+            background-color: var(--black);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Navbar styling */
+        .navbar {
+            background: linear-gradient(135deg, var(--dark-purple) 0%, var(--medium-purple) 100%);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 1.5rem;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 10px 15px !important;
+            margin: 0 5px;
+            border-radius: 6px;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--accent-purple) !important;
+            transform: translateY(-2px);
+        }
+        
+        .dashboard-container {
+            padding: 40px 0;
+        }
+        
+        .widget {
+            background: linear-gradient(145deg, var(--medium-gray), var(--dark-gray));
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 25px;
+            margin-bottom: 30px;
+            height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .widget:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .widget-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--accent-purple);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+        
+        .stats-card {
+            background: linear-gradient(145deg, var(--dark-gray), var(--medium-gray));
+            padding: 25px 15px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--light-purple), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--dark-purple) 0%, var(--medium-purple) 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 200%;
+            background: linear-gradient(transparent, rgba(255, 255, 255, 0.1));
+            transform: rotate(35deg);
+        }
+        
+        .welcome-banner h2 {
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .welcome-banner p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .list-group {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .list-group-item {
+            background-color: var(--medium-gray);
+            border-color: rgba(255, 255, 255, 0.05);
+            color: white;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .list-group-item:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .list-group-item-action {
+            color: white;
+        }
+        
+        .list-group-item-action:hover {
+            color: white;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--medium-purple) 0%, var(--dark-purple) 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(106, 60, 191, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 25px rgba(106, 60, 191, 0.4);
+            background: linear-gradient(135deg, var(--medium-purple) 30%, var(--dark-purple) 100%);
+        }
+        
+        .btn-outline-primary {
+            background-color: transparent;
+            border: 1px solid var(--accent-purple);
+            color: var(--accent-purple);
+            border-radius: 8px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--accent-purple);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-purple);
+            padding: 3px;
+            background-color: var(--dark-gray);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, var(--medium-purple) 0%, var(--dark-purple) 100%);
+            padding: 5px 10px;
+            font-weight: 500;
+        }
+        
+        .text-danger {
+            color: #ff6b6b !important;
+        }
+        
+        .text-success {
+            color: #69db7c !important;
+        }
+        
+        small {
+            opacity: 0.8;
+        }
+        
+        .text-muted {
+            color: rgba(255, 255, 255, 0.6) !important;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--medium-purple) 0%, var(--dark-purple) 100%);
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 991px) {
+            .welcome-banner {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .stats-card {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">CollabSphere</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/dashboard.html"><i class="bi bi-speedometer2 me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile.html"><i class="bi bi-person me-1"></i> Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/projects.html"><i class="bi bi-kanban me-1"></i> Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/discussions.html"><i class="bi bi-chat-dots me-1"></i> Discussions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logout-btn"><i class="bi bi-box-arrow-right me-1"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container dashboard-container">
+        <div class="welcome-banner">
+            <h2><i class="bi bi-stars me-2"></i> Welcome back, <span id="user-name">User</span>!</h2>
+            <p class="mb-0">Here's what's happening in your collaborative workspace today.</p>
+        </div>
+
+        <style>
+            .username-part {
+                /* Add any styling you want for each part of the username */
+                margin-right: 2px; /* Example: Add a small space between characters */
+                font-weight: bold; /* Example: Make each character bold */
+                color: var(--accent-purple); /* Example: Use the accent color */
+                /* Add transitions or animations if desired */
+            }
+        </style>
+        
+        <div class="row g-4">
+            <!-- Stats Row -->
+            <div class="col-md-3 col-6">
+                <div class="stats-card">
+                    <i class="bi bi-kanban mb-2" style="font-size: 1.5rem; color: var(--accent-purple);"></i>
+                    <div class="stats-number" id="projects-count">0</div>
+                    <div>Projects</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stats-card">
+                    <i class="bi bi-people mb-2" style="font-size: 1.5rem; color: var(--accent-purple);"></i>
+                    <div class="stats-number" id="collaborators-count">0</div>
+                    <div>Collaborators</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stats-card">
+                    <i class="bi bi-chat-dots mb-2" style="font-size: 1.5rem; color: var(--accent-purple);"></i>
+                    <div class="stats-number" id="messages-count">0</div>
+                    <div>Messages</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stats-card">
+                    <i class="bi bi-check2-square mb-2" style="font-size: 1.5rem; color: var(--accent-purple);"></i>
+                    <div class="stats-number" id="tasks-count">0</div>
+                    <div>Tasks</div>
+                </div>
+            </div>
+            
+            <!-- Main Dashboard Content -->
+            <div class="col-md-8">
+                <!-- Recent Activity Widget -->
+                <div class="widget">
+                    <h3 class="widget-title"><i class="bi bi-activity me-2"></i>Recent Activity</h3>
+                    <div id="recent-activity">
+                        <div class="text-center py-5">
+                            <p class="text-muted">Loading activities...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Projects Widget -->
+                <div class="widget">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="widget-title mb-0"><i class="bi bi-kanban me-2"></i>Your Projects</h3>
+                        <a href="/projects.html" class="btn btn-primary btn-sm">View All</a>
+                    </div>
+                    <div id="recent-projects">
+                        <div class="text-center py-5">
+                            <p class="text-muted">Loading projects...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <!-- Profile Summary Widget -->
+                <div class="widget">
+                    <h3 class="widget-title"><i class="bi bi-person-circle me-2"></i>Profile Summary</h3>
+                    <div id="profile-summary">
+                        <div class="text-center py-5">
+                            <p class="text-muted">Loading profile...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Upcoming Deadlines Widget -->
+                <div class="widget">
+                    <h3 class="widget-title"><i class="bi bi-calendar-event me-2"></i>Upcoming Deadlines</h3>
+                    <div id="upcoming-deadlines">
+                        <div class="text-center py-5">
+                            <p class="text-muted">Loading deadlines...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Messages Widget -->
+                <div class="widget">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="widget-title mb-0"><i class="bi bi-envelope me-2"></i>Recent Messages</h3>
+                        <a href="/messages.html" class="btn btn-primary btn-sm">View All</a>
+                    </div>
+                    <div id="recent-messages">
+                        <div class="text-center py-5">
+                            <p class="text-muted">Loading messages...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Get user data from localStorage
+        const userId = localStorage.getItem('userId');
+        const userRole = localStorage.getItem('userRole');
+        const username = localStorage.getItem('username'); // Get stored username
+        
+        // Check if user is logged in
+        if (!userId) {
+            console.log("No user ID found, redirecting to login");
+            window.location.href = '/login.html';
+        } else {
+            // Display username immediately if available
+            if (username) {
+                document.getElementById('user-name').textContent = username;
+            }
+        }
+        
+        // Load user profile and data
+        async function loadDashboard() {
+            try {
+                // Fetch user profile
+                const profileResponse = await fetch(`http://localhost:5000/api/profile/me?userId=${userId}`);
+                if (profileResponse.ok) {
+                    const profile = await profileResponse.json();
+                    
+                    // Update user name in welcome banner (prefer profile name if available)
+                    document.getElementById('user-name').textContent = profile.name || username || 'User';
+                    
+                    // Update profile summary
+                    const profileSummary = document.getElementById('profile-summary');
+                    profileSummary.innerHTML = `
+                        <div class="text-center mb-4">
+                            <img src="https://via.placeholder.com/100" class="profile-image mb-3" alt="Profile Picture">
+                            <h4 class="mt-2 mb-1">${profile.name || username || 'User'}</h4>
+                            <p class="text-muted mb-2">${profile.profession || profile.companyName || profile.role || userRole}</p>
+                            <span class="badge rounded-pill mb-3">${userRole === 'creator' ? 'Project Creator' : 'Contributor'}</span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <a href="/profile.html" class="btn btn-outline-primary">
+                                <i class="bi bi-pencil-square me-2"></i>Edit Profile
+                            </a>
+                        </div>
+                    `;
+                    
+                    // Load other dashboard components based on role
+                    if (userRole === 'creator') {
+                        loadCreatorDashboard();
+                    } else {
+                        loadContributorDashboard();
+                    }
+                } else {
+                    // Profile doesn't exist, redirect to appropriate profile creation page
+                    if (userRole === 'creator') {
+                        window.location.href = '/creator-profile.html';
+                    } else if (userRole === 'contributor') {
+                        window.location.href = '/contributor-profile.html';
+                    } else {
+                        window.location.href = '/select-role.html';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                // If profile fetch fails, still show username from localStorage
+                document.getElementById('user-name').textContent = username || 'User';
+                
+                // Display basic info instead of failing
+                const profileSummary = document.getElementById('profile-summary');
+                profileSummary.innerHTML = `
+                    <div class="text-center mb-4">
+                        <img src="https://via.placeholder.com/100" class="profile-image mb-3" alt="Profile Picture">
+                        <h4 class="mt-2 mb-1">${username || 'User'}</h4>
+                        <p class="text-muted mb-2">${userRole || 'Member'}</p>
+                        <span class="badge rounded-pill mb-3">${userRole === 'creator' ? 'Project Creator' : 'Contributor'}</span>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <a href="/profile.html" class="btn btn-outline-primary">
+                            <i class="bi bi-pencil-square me-2"></i>Complete Your Profile
+                        </a>
+                    </div>
+                `;
+                
+                // Load placeholder data based on role
+                if (userRole === 'creator') {
+                    loadCreatorDashboard();
+                } else {
+                    loadContributorDashboard();
+                }
+            }
+        }
+
+        
+
+        async function loadUsernameParts() {
+            if (!userId) {
+                console.log("User ID not found. Cannot fetch username parts.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/users/${userId}`); // Replace with your actual API endpoint
+                if (response.ok) {
+                    const userData = await response.json();
+                    const usernameFromDB = userData.username; // Assuming your user object has a 'username' property
+
+                    if (usernameFromDB) {
+                        const parts = usernameFromDB.split(''); // Split into individual characters
+                        const userNameContainer = document.getElementById('user-name');
+                        userNameContainer.innerHTML = ''; // Clear existing content
+
+                        parts.forEach(part => {
+                            const span = document.createElement('span');
+                            span.textContent = part;
+                            span.classList.add('username-part'); // You can add a class for styling
+                            userNameContainer.appendChild(span);
+                        });
+                        localStorage.setItem('username', usernameFromDB); // Optionally update localStorage
+                    } else {
+                        console.log("Username not found in the user data.");
+                    }
+                } else {
+                    console.error("Failed to fetch user data:", response.status);
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDashboard().then(() => {
+                const currentUsername = document.getElementById('user-name').textContent;
+                if (currentUsername === 'User') {
+                    loadUsernameParts();
+                } else {
+                    // If loadDashboard already populated the username, you might still want to split it
+                    const existingUsername = document.getElementById('user-name').textContent;
+                    const parts = existingUsername.split('');
+                    const userNameContainer = document.getElementById('user-name');
+                    userNameContainer.innerHTML = '';
+
+                    parts.forEach(part => {
+                        const span = document.createElement('span');
+                        span.textContent = part;
+                        span.classList.add('username-part');
+                        userNameContainer.appendChild(span);
+                    });
+                    localStorage.setItem('username', existingUsername); // Ensure localStorage is updated
+                }
+            });
+        });
+        
+        // Load creator-specific dashboard data
+        async function loadCreatorDashboard() {
+            // For now, just simulating data
+            document.getElementById('projects-count').textContent = '5';
+            document.getElementById('collaborators-count').textContent = '12';
+            document.getElementById('messages-count').textContent = '8';
+            document.getElementById('tasks-count').textContent = '23';
+            
+            // Recent projects
+            document.getElementById('recent-projects').innerHTML = `
+                <div class="list-group">
+                    <a href="/projects/1" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Website Redesign</h5>
+                            <small>2 days ago</small>
+                        </div>
+                        <p class="mb-1">Looking for UI/UX designer and frontend developer</p>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <small class="text-muted">3 applicants</small>
+                            <span class="badge bg-primary">In Progress</span>
+                        </div>
+                    </a>
+                    <a href="/projects/2" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Mobile App Development</h5>
+                            <small>1 week ago</small>
+                        </div>
+                        <p class="mb-1">Need React Native developers</p>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <small class="text-muted">7 applicants</small>
+                            <span class="badge bg-primary">Planning</span>
+                        </div>
+                    </a>
+                    <a href="/projects/3" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Content Marketing Campaign</h5>
+                            <small>2 weeks ago</small>
+                        </div>
+                        <p class="mb-1">Seeking content writers and social media experts</p>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <small class="text-muted">5 applicants</small>
+                            <span class="badge bg-primary">In Progress</span>
+                        </div>
+                    </a>
+                </div>
+            `;
+            
+            // Recent activity
+            document.getElementById('recent-activity').innerHTML = `
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="d-flex align-items-center">
+                            <div class="activity-icon">
+                                <i class="bi bi-person-plus"></i>
+                            </div>
+                            <div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1"><strong>John Smith</strong> applied to your project</p>
+                                    <small>3 hours ago</small>
+                                </div>
+                                <small class="text-muted">Website Redesign project</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex align-items-center">
+                            <div class="activity-icon">
+                                <i class="bi bi-chat-left-text"></i>
+                            </div>
+                            <div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1"><strong>Sarah Wilson</strong> sent you a message</p>
+                                    <small>Yesterday</small>
+                                </div>
+                                <small class="text-muted">Regarding Mobile App Development</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex align-items-center">
+                            <div class="activity-icon">
+                                <i class="bi bi-plus-circle"></i>
+                            </div>
+                            <div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">You posted a new project</p>
+                                    <small>2 days ago</small>
+                                </div>
+                                <small class="text-muted">Content Marketing Campaign</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Upcoming deadlines
+            document.getElementById('upcoming-deadlines').innerHTML = `
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <div>
+                                <p class="mb-1 fw-bold">Website Wireframes Due</p>
+                                <small class="text-muted">Website Redesign project</small>
+                            </div>
+                            <span class="badge text-danger">Tomorrow</span>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <div>
+                                <p class="mb-1 fw-bold">App Development Sprint 1</p>
+                                <small class="text-muted">Mobile App Development</small>
+                            </div>
+                            <span class="badge">in 5 days</span>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <div>
+                                <p class="mb-1 fw-bold">Marketing Content Review</p>
+                                <small class="text-muted">Content Marketing Campaign</small>
+                            </div>
+                            <span class="badge">in 10 days</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Recent messages
+            document.getElementById('recent-messages').innerHTML = `
+                <div class="list-group">
+                    <a href="/messages/1" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Sarah Wilson</h6>
+                            <small>2h ago</small>
+                        </div>
+                        <p class="mb-1 text-truncate">I've completed the design mockups as requested. Can we schedule a review call?</p>
+                        <small class="text-muted"><i class="bi bi-reply me-1"></i>Website Redesign</small>
+                    </a>
+                    <a href="/messages/2" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Mike Johnson</h6>
+                            <small>Yesterday</small>
+                        </div>
+                        <p class="mb-1 text-truncate">Can we schedule a call to discuss the app development timeline?</p>
+                        <small class="text-muted"><i class="bi bi-reply me-1"></i>Mobile App Development</small>
+                    </a>
+                </div>
+            `;
+        }
+        
+        // Load contributor-specific dashboard data
+        async function loadContributorDashboard() {
+            // For now, just simulating data
+            document.getElementById('projects-count').textContent = '3';
+            document.getElementById('collaborators-count').textContent = '7';
+            document.getElementById('messages-count').textContent = '5';
+            document.getElementById('tasks-count').textContent = '14';
+            
+            // Recent projects (projects you're contributing to)
+            document.getElementById('recent-projects').innerHTML = `
+                <div class="list-group">
+                    <a href="/projects/1" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Website Redesign</h5>
+                            <small class="text-success">Active</small>
+                        </div>
+                        <p class="mb-1">Frontend development for e-commerce site</p>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <small class="text-muted">Created by: Jane Doe</small>
+                            <div>
+                                <span class="badge bg-success">In Progress</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/projects/2" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Blog Content Creation</h5>
+                            <small class="text-success">Active</small>
+                        </div>
+                        <p class="mb-1">Writing technical articles for SaaS company</p>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <small class="text-muted">Created by: Alex Smith</small>
+                            <div>
+                                <span class="badge bg-success">In Progress</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            `;
+            
+            // Recent activity
+            document.getElementById('recent-activity').innerHTML = `
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="d-flex align-items-center">
+                            <div class="activity-icon">
+                                <i class="bi bi-send"></i>
+                            </div>
+                            <div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">You applied to <strong>Mobile App Development</strong></p>
+                                    <small>5 hours ago</small>
+                                </div>
+                                <small class="text-muted">React Native Developer position</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex align-items-center">
+                            <div class="activity-icon">
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+                            <div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1"><strong>Jane Doe</strong> accepted your application</p>
+                                    <small>Yesterday</small>
+                                </div>
+                                <small class="text-muted">Website Redesign project</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex align-items-center">
+                            <div class="activity-icon">
+                                <i class="bi bi-file-earmark-check"></i>
+                            </div>
+                            <div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">You submitted task deliverable</p>
+                                    <small>3 days ago</small>
+                                </div>
+                                <small class="text-muted">Blog Content Creation - Article 1</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Upcoming deadlines
+            document.getElementById('upcoming-deadlines').innerHTML = `
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <div>
+                                <p class="mb-1 fw-bold">Homepage UI Implementation</p>
+                                <small class="text-muted">Website Redesign project</small>
+                            </div>
+                            <span class="badge text-danger">Tomorrow</span>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <div>
+                                <p class="mb-1 fw-bold">Blog Post Submission</p>
+                                <small class="text-muted">Blog Content Creation</small>
+                            </div>
+                            <span class="badge">in 3 days</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Recent messages
+            document.getElementById('recent-messages').innerHTML = `
+                <div class="list-group">
+                    <a href="/messages/1" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Jane Doe</h6>
+                            <small>3h ago</small>
+                        </div>
+                        <p class="mb-1 text-truncate">Thanks for your latest submission. I have some feedback to share about the homepage design.</p>
+                        <small class="text-muted"><i class="bi bi-reply me-1"></i>Website Redesign</small>
+                    </a>
+                    <a href="/messages/2" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Alex Smith</h6>
+                            <small>Yesterday</small>
+                        </div>
+                        <p class="mb-1 text-truncate">Would you be interested in another project similar to the blog content work we're doing?</p>
+                        <small class="text-muted"><i class="bi bi-reply me-1"></i>Blog Content Creation</small>
+                    </a>
+                </div>
+            `;
+        }
+        
+        // Handle logout
+        document.getElementById('logout-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Clear localStorage - also clear username
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('username');
+            
+            // Redirect to login page
+            window.location.href = '/login.html';
+        });
+        
+        // Load dashboard on page load
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>
