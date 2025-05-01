@@ -1,3 +1,65 @@
+# Collab-Sphere: Open-Source Collaboration Platform for Students
+
+Collab-Sphere is a full-stack web application designed to help students discover open-source projects, express interest, and collaborate effectively.  
+Our platform addresses the common challenges students face when trying to contribute to open-source: unclear project requirements, difficulty in finding suitable projects, and lack of structured discussion spaces.
+
+This repository contains the complete source code for the backend and frontend of the application.
+
+---
+
+## 📝 Why We Built This
+
+Many students struggle to make their first contribution to real-world projects due to:
+- Lack of platforms that match projects with student skills.
+- Confusing or incomplete project descriptions.
+- No streamlined way to show interest and start collaborating.
+
+**Collab-Sphere** solves these by offering:
+- Skill-based project filtering.
+- Transparent project requirement listings.
+- Integrated interest expression and discussion features.
+  
+Our goal is to lower the barrier for students to contribute meaningfully to collaborative coding projects.
+
+---
+
+## 🌐 What Collab-Sphere Does (Core Functionality)
+
+### ✅ User Authentication
+- Students can sign up and create profiles listing their coding skills.
+- Secure login system to access personalized features.
+
+### 🔍 Project Discovery
+- Browse and filter projects based on required skills, difficulty level, and interests.
+- Projects display clear requirements and contributor expectations.
+
+### 📣 Express Interest
+- Students can express interest in projects with a single click.
+- Interest expressions are tracked for project creators to view and manage.
+
+### 💬 Discussions & Collaboration
+- Every project includes a dedicated discussion thread.
+- Students and project creators can post comments, ask questions, and exchange ideas.
+  
+### 📊 Data-Driven Matching
+- Projects and users are stored in structured collections for easy matching.
+- Filters help users find the most relevant projects quickly.
+
+---
+
+## 🛠️ Tech Stack Overview
+
+| Layer      | Technology               |
+|------------|---------------------------|
+| Frontend   | HTML, CSS, JavaScript, React.js, Bootstrap/Material UI |
+| Backend    | Node.js, Express.js       |
+| Database   | MongoDB (with Mongoose ODM) |
+| Tools      | Git, GitHub, VS Code, Figma |
+
+---
+
+## 🗂️ Repository Structure
+
 
 ---
 
