@@ -112,6 +112,8 @@ We welcome contributions! Please open issues or pull requests if you’d like to
 ## 📹 Demo
 > A detailed video demo will be available [here](#) after submission.  
 It will showcase the full user flow: sign up, project discovery, expressing interest, and collaboration.
+>
+> https://drive.google.com/file/d/1ARtD26d5uXm_o9ewJqI69IYk88F3Fdl2/view?usp=drive_link
 
 ---
 
